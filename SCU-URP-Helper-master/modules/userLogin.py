@@ -6,6 +6,7 @@ from PySide2.QtGui import QPixmap
 from PySide2.QtWidgets import QMessageBox
 
 from modules.utils import *
+from modules.hex_md5 import hex_md5  # 导入 hex_md5 函数
 
 http_url_login = "http://zhjw.scu.edu.cn/j_spring_security_check"
 http_url_captcha = "http://zhjw.scu.edu.cn/img/captcha.jpg"
@@ -40,13 +41,22 @@ def urp_login(sself):
     username = sself.ui.username.currentText()
     password = sself.ui.password.text()
     captcha = sself.ui.captcha.text()
-
-    http_hash = hashlib.md5(password.encode()).hexdigest()
+    
+    # 添加调试输出
+    print("原始密码:", password)
+    hash1 = hex_md5(password)
+    hash2 = hex_md5(password, '1.8')
+    http_hash = hash1 + '*' + hash2
+    print("加密后的密码:", http_hash)
+    print("hash1 (带Urp602019):", hash1)
+    print("hash2 (1.8版本):", hash2)
+    
     post_data = {
         "tokenValue": sself.tokenval,
         "j_username": username,
         "j_password": http_hash,
-        "j_captcha": captcha}
+        "j_captcha": captcha
+    }
     try:
         http_post = http_main.post(http_url_login, post_data, http_head)
     except:

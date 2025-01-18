@@ -1,3 +1,6 @@
+//<input type="submit" id="loginButton" style="background: #56baed; margin-bottom:10px;" class="fadeIn fourth" value="登 录" onclick="$('#input_password').val(hex_md5($('#input_password').val()) + '*' + hex_md5($('#input_password').val(), '1.8'));">
+//上面这个是我从登录页面抓出来的包查到的他的密码加密方式
+//下面这个是我找的它对应的function
 function hex_md5(string, ver) {
     function md5_RotateLeft(lValue, iShiftBits) {
         return (lValue << iShiftBits) | (lValue >>> (32 - iShiftBits))
